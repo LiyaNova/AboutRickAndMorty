@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol TapButtonDelegate: AnyObject {
+    func seeCharacters()
+    func seeLocations()
+    func seeEpisodes()
+}
+
 final class MainView: UIView {
+
+    weak var delegate: TapButtonDelegate?
 
     private lazy var nameImage: UIImageView = {
         let img = UIImageView()
@@ -24,9 +32,13 @@ final class MainView: UIView {
         btn.imageView?.layer.cornerRadius = 10
         btn.imageView?.layer.borderColor = UIColor.green.cgColor
         btn.imageView?.layer.borderWidth = 2
-        //      bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(didTapCharacterButton), for: .touchUpInside)
        return btn
    }()
+
+    @objc private func didTapCharacterButton() {
+        delegate?.seeCharacters()
+    }
 
     private lazy var locationButton: UIButton = {
        let btn = UIButton()
@@ -36,9 +48,13 @@ final class MainView: UIView {
         btn.imageView?.layer.cornerRadius = 10
         btn.imageView?.layer.borderColor = UIColor.green.cgColor
         btn.imageView?.layer.borderWidth = 2
- //      bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
        return btn
    }()
+
+    @objc private func didTapLocationButton() {
+        delegate?.seeLocations()
+    }
 
     private lazy var episodeButton: UIButton = {
        let btn = UIButton()
@@ -48,9 +64,13 @@ final class MainView: UIView {
         btn.imageView?.layer.cornerRadius = 10
         btn.imageView?.layer.borderColor = UIColor.green.cgColor
         btn.imageView?.layer.borderWidth = 2
- //      bottomButton.addTarget(self, action: #selector(didTapBottomButton), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(didTapEpisodeButton), for: .touchUpInside)
        return btn
    }()
+
+    @objc private func didTapEpisodeButton() {
+        delegate?.seeEpisodes()
+    }
 
     private lazy var buttonStackView: UIStackView = {
         let stv = UIStackView(arrangedSubviews:
