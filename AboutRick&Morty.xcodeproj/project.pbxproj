@@ -69,7 +69,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		38266129289D226B00A4276C /* Networking */ = {
+		38266129289D226B00A4276C /* NetworkingModel */ = {
 			isa = PBXGroup;
 			children = (
 				384AF1B6289D1105001F9A9F /* NetworkManager.swift */,
@@ -77,7 +77,7 @@
 				3826612C289D56A500A4276C /* LocationModel.swift */,
 				3826612E289D56AF00A4276C /* EpisodeModel.swift */,
 			);
-			path = Networking;
+			path = NetworkingModel;
 			sourceTree = "<group>";
 		};
 		382EB15D289C27F7002042A4 /* Views */ = {
@@ -137,7 +137,7 @@
 				38B8FC62289A954A00A72D3F /* SceneDelegate.swift */,
 				382EB15F289C2860002042A4 /* Controllers */,
 				382EB15D289C27F7002042A4 /* Views */,
-				38266129289D226B00A4276C /* Networking */,
+				38266129289D226B00A4276C /* NetworkingModel */,
 				38B8FC69289A954C00A72D3F /* Assets.xcassets */,
 				384B5F2F289AD04400930613 /* ColorSet.xcassets */,
 				38B8FC6B289A954C00A72D3F /* LaunchScreen.storyboard */,

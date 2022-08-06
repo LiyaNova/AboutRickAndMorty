@@ -8,26 +8,21 @@
 import UIKit
 import Alamofire
 
-protocol NetworkDelegate: AnyObject {
-    func showData(data: [Characters])
-}
+final class NetworkManager {
 
-class NetworkManager {
+    private let urlCharacter = "https://rickandmortyapi.com/api/character"
+    private let urlLocation = "https://rickandmortyapi.com/api/location"
+    private let urlEpisode = "https://rickandmortyapi.com/api/episode"
 
-//    var array = [Characters]()
-
-    weak var delegate: NetworkDelegate?
-
-    let urlCharacter = "https://rickandmortyapi.com/api/character"
-    let urlLocation = "https://rickandmortyapi.com/api/location"
-    let urlEpisode = "https://rickandmortyapi.com/api/episode"
+    var addCharacter: (([Characters]) -> ())?
+    var addLocation: (([Locations]) -> ())?
+    var addEpisode: (([Episodes]) -> ())?
 
     func getCharacterInfo() {
         AF.request(urlCharacter).responseDecodable(of: CharacterModel.self) { response in
             switch response.result {
             case .success(let data):
-                    self.delegate?.showData(data: data.results)
-//                self.array = data.results
+                self.addCharacter?(data.results)
             case .failure(let error):
                 print(error)
             }
@@ -35,10 +30,10 @@ class NetworkManager {
     }
 
     func getLocationInfo() {
-        AF.request(urlLocation).responseDecodable(of: CharacterModel.self) { response in
+        AF.request(urlLocation).responseDecodable(of: LocationModel.self) { response in
             switch response.result {
             case .success(let data):
-                    self.delegate?.showData(data: data.results)
+                self.addLocation?(data.results)
             case .failure(let error):
                 print(error)
             }
@@ -46,16 +41,15 @@ class NetworkManager {
     }
 
     func getEpisodeInfo() {
-        AF.request(urlLocation).responseDecodable(of: CharacterModel.self) { response in
+        AF.request(urlEpisode).responseDecodable(of: EpisodeModel.self) { response in
             switch response.result {
             case .success(let data):
-                    self.delegate?.showData(data: data.results)
+                self.addEpisode?(data.results)
             case .failure(let error):
                 print(error)
             }
         }
     }
-
 
 }
 

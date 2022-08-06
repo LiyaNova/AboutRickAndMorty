@@ -25,7 +25,7 @@ final class MainView: UIView {
     }()
 
     private lazy var characterButton: UIButton = {
-       let btn = UIButton()
+        let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(named: "hero"), for: .normal)
         btn.imageView?.contentMode = .scaleAspectFill
@@ -33,15 +33,15 @@ final class MainView: UIView {
         btn.imageView?.layer.borderColor = UIColor.green.cgColor
         btn.imageView?.layer.borderWidth = 2
         btn.addTarget(self, action: #selector(didTapCharacterButton), for: .touchUpInside)
-       return btn
-   }()
+        return btn
+    }()
 
     @objc private func didTapCharacterButton() {
-        delegate?.seeCharacters()
+        self.delegate?.seeCharacters()
     }
 
     private lazy var locationButton: UIButton = {
-       let btn = UIButton()
+        let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(named: "place"), for: .normal)
         btn.imageView?.contentMode = .scaleAspectFill
@@ -49,15 +49,15 @@ final class MainView: UIView {
         btn.imageView?.layer.borderColor = UIColor.green.cgColor
         btn.imageView?.layer.borderWidth = 2
         btn.addTarget(self, action: #selector(didTapLocationButton), for: .touchUpInside)
-       return btn
-   }()
+        return btn
+    }()
 
     @objc private func didTapLocationButton() {
-        delegate?.seeLocations()
+        self.delegate?.seeLocations()
     }
 
     private lazy var episodeButton: UIButton = {
-       let btn = UIButton()
+        let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setImage(UIImage(named: "episode"), for: .normal)
         btn.imageView?.contentMode = .scaleAspectFill
@@ -65,11 +65,11 @@ final class MainView: UIView {
         btn.imageView?.layer.borderColor = UIColor.green.cgColor
         btn.imageView?.layer.borderWidth = 2
         btn.addTarget(self, action: #selector(didTapEpisodeButton), for: .touchUpInside)
-       return btn
-   }()
+        return btn
+    }()
 
     @objc private func didTapEpisodeButton() {
-        delegate?.seeEpisodes()
+        self.delegate?.seeEpisodes()
     }
 
     private lazy var buttonStackView: UIStackView = {
@@ -130,6 +130,7 @@ final class MainView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         self.backgroundColor = UIColor(named: "Color")
         self.setViews()
     }
@@ -139,16 +140,14 @@ final class MainView: UIView {
     }
 
     private func setViews() {
-        [
-         self.nameImage,
-         self.buttonStackView,
-         self.characterLabel,
-         self.locationLabel,
-         self.episodeLabel
+        [   self.nameImage,
+            self.buttonStackView,
+            self.characterLabel,
+            self.locationLabel,
+            self.episodeLabel
         ].forEach { self.addSubview($0) }
 
         NSLayoutConstraint.activate([
-
             self.nameImage.topAnchor.constraint(equalTo: self.topAnchor,constant: 10),
             self.nameImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             self.nameImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
@@ -158,17 +157,19 @@ final class MainView: UIView {
             self.buttonStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
             self.buttonStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
             self.buttonStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,                                                                                constant: -20),
-            self.characterLabel.bottomAnchor.constraint(equalTo: self.characterButton.bottomAnchor, constant: -2),
-            self.characterLabel.trailingAnchor.constraint(equalTo: self.characterButton.trailingAnchor, constant: -2),
-
-            self.locationLabel.bottomAnchor.constraint(equalTo: self.locationButton.bottomAnchor, constant: -2),
-            self.locationLabel.trailingAnchor.constraint(equalTo: self.locationButton.trailingAnchor, constant: -2),
-
-            self.episodeLabel.bottomAnchor.constraint(equalTo: self.episodeButton.bottomAnchor, constant: -2),
-            self.episodeLabel.trailingAnchor.constraint(equalTo: self.episodeButton.trailingAnchor, constant: -2),
-
+            self.characterLabel.bottomAnchor.constraint(equalTo: self.characterButton.bottomAnchor,
+                                                                                            constant: -2),
+            self.characterLabel.trailingAnchor.constraint(equalTo: self.characterButton.trailingAnchor,
+                                                                                            constant: -2),
+            self.locationLabel.bottomAnchor.constraint(equalTo: self.locationButton.bottomAnchor,
+                                                                                            constant: -2),
+            self.locationLabel.trailingAnchor.constraint(equalTo: self.locationButton.trailingAnchor,
+                                                                                            constant: -2),
+            self.episodeLabel.bottomAnchor.constraint(equalTo: self.episodeButton.bottomAnchor,
+                                                                                            constant: -2),
+            self.episodeLabel.trailingAnchor.constraint(equalTo: self.episodeButton.trailingAnchor,
+                                                                                            constant: -2)
         ])
-
     }
 
 }

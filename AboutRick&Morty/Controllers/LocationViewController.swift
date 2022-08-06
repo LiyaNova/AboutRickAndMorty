@@ -7,9 +7,16 @@
 
 import UIKit
 
-class LocationViewController: UIViewController {
+final class LocationViewController: UIViewController {
 
-    let locationView = LocationView()
+    private let networkManager = NetworkManager()
+    private lazy var locationView = LocationView(locations: self.locations)
+
+    private var locations: [Locations] = [] {
+        didSet {
+            self.locationView.locations = self.locations
+        }
+    }
 
     override func loadView() {
         self.view = self.locationView
@@ -17,11 +24,16 @@ class LocationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.title = "Локации"
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.white ]
-    }
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.white ]
 
-    
+        self.networkManager.getLocationInfo()
+        self.networkManager.addLocation = { [weak self] data in
+            guard let self = self else { return }
+            self.locations = data
+        }
+    }
 
 }

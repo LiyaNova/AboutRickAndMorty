@@ -7,9 +7,16 @@
 
 import UIKit
 
-class CharacterViewController: UIViewController {
+final class CharacterViewController: UIViewController {
 
-    let characterView = CharacterView()
+    private let networkManager = NetworkManager()
+    private lazy var characterView = CharacterView(characters: self.characters)
+
+    private var characters: [Characters] = [] {
+        didSet {
+            self.characterView.characters = self.characters
+        }
+    }
 
     override func loadView() {
         self.view = self.characterView
@@ -17,10 +24,16 @@ class CharacterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.title = "Персонажи"
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.white ]
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.white ]
 
+        self.networkManager.getCharacterInfo()
+        self.networkManager.addCharacter = { [weak self] character in
+            guard let self = self else { return }
+            self.characters = character
+        }
     }
 
 }

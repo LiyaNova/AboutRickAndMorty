@@ -9,10 +9,11 @@ import UIKit
 
 final class CharacterView: UIView {
 
-    let netData = NetworkManager()
-
-    var characters = [Characters]()
-
+    var characters: [Characters] {
+        didSet {
+            self.characterTableView.reloadData()
+        }
+    }
 
     private lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
@@ -40,45 +41,34 @@ final class CharacterView: UIView {
         return tableView
     }()
 
-
-
-    override init(frame: CGRect) {
+    init(characters: [Characters], frame: CGRect = .zero) {
+        self.characters = characters
         super.init(frame: frame)
-        self.backgroundColor = UIColor(named: "Color")
-       self.setView()
-        self.netData.delegate = self
-            self.netData.getCharacterInfo()
 
+        self.backgroundColor = UIColor(named: "Color")
+        self.setView()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-   private func setView() {
-       [
-        self.searchBar,
-        self.characterTableView
-       ].forEach { self.addSubview($0) }
+    private func setView() {
+        [   self.searchBar,
+            self.characterTableView
+        ].forEach { self.addSubview($0) }
 
-       NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
+            self.searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            self.searchBar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.searchBar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
-        self.searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-        self.searchBar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        self.searchBar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-
-
-        self.characterTableView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
-        self.characterTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        self.characterTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        self.characterTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-
-       ])
-
-
-
+            self.characterTableView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
+            self.characterTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.characterTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.characterTableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
-
 
 }
 
@@ -91,10 +81,9 @@ extension CharacterView: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell", for: indexPath) as! CharacterCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell", for: indexPath) as!                                                                                    CharacterCell
         let character = characters[indexPath.row]
         cell.setCell(model: character)
-
         return cell
     }
 
@@ -102,49 +91,37 @@ extension CharacterView: UITableViewDataSource {
         UIScreen.main.bounds.height * 0.2
     }
 
-
 }
 
 //MARK: - UITableViewDelegate
 
 extension CharacterView: UITableViewDelegate {
-
-
+    
 }
 
 //MARK: - UISearchBarDelegate
 
 extension CharacterView: UISearchBarDelegate {
-
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
-//            if searchText.isEmpty {
-             //   filteredCitiesList = citiesList
-                characterTableView.reloadData()
-//            } else {
-//
-//                func filterTableView(text:String) {
-//                    let search = text.lowercased()
-//                    filteredCitiesList = citiesList.filter({ (mod) -> Bool in
-//                        return mod.name!.lowercased().contains(search)
-//                    })
-//                    self.tableView.reloadData()
-//                }
-//
-//                filterTableView(text: searchText)
-//            }
-        }
-
-}
-
-//MARK: - NetworkDelegate
-
-extension CharacterView: NetworkDelegate {
-    func showData(data: [Characters]) {
-        characters = data
+        //            if searchText.isEmpty {
+        //   filteredCitiesList = citiesList
         characterTableView.reloadData()
+        //            } else {
+        //
+        //                func filterTableView(text:String) {
+        //                    let search = text.lowercased()
+        //                    filteredCitiesList = citiesList.filter({ (mod) -> Bool in
+        //                        return mod.name!.lowercased().contains(search)
+        //                    })
+        //                    self.tableView.reloadData()
+        //                }
+        //
+        //                filterTableView(text: searchText)
+        //            }
     }
 
-
 }
+
 

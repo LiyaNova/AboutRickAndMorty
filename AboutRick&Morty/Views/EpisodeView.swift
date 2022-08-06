@@ -9,6 +9,12 @@ import UIKit
 
 final class EpisodeView: UIView {
 
+    var episodes: [Episodes] {
+        didSet {
+            self.episodeTableView.reloadData()
+        }
+    }
+
     private lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
         sb.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +28,7 @@ final class EpisodeView: UIView {
 
     }()
 
-    private lazy var characterTableView: UITableView = {
+    private lazy var episodeTableView: UITableView = {
         let tableView = UITableView(frame: self.bounds, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
@@ -35,42 +41,34 @@ final class EpisodeView: UIView {
         return tableView
     }()
 
-
-
-    override init(frame: CGRect) {
+    init(episodes: [Episodes], frame: CGRect = .zero) {
+        self.episodes =  episodes
         super.init(frame: frame)
+
         self.backgroundColor = UIColor(named: "Color")
-       self.setView()
+        self.setView()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-   private func setView() {
-       [
-        self.searchBar,
-        self.characterTableView
-       ].forEach { self.addSubview($0) }
+    private func setView() {
+        [   self.searchBar,
+            self.episodeTableView
+        ].forEach { self.addSubview($0) }
 
-       NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
+            self.searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            self.searchBar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.searchBar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
-        self.searchBar.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-        self.searchBar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        self.searchBar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-
-
-        self.characterTableView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
-        self.characterTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-        self.characterTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        self.characterTableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-
-       ])
-
-
-
+            self.episodeTableView.topAnchor.constraint(equalTo: self.searchBar.bottomAnchor),
+            self.episodeTableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.episodeTableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.episodeTableView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
-
 
 }
 
@@ -79,12 +77,14 @@ final class EpisodeView: UIView {
 extension EpisodeView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        episodes.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as! DefaultCell
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as!
+                                                                                        DefaultCell
+        let episode = episodes[indexPath.row]
+        cell.setEpisodeCell(model: episode)
         return cell
     }
 
@@ -92,14 +92,12 @@ extension EpisodeView: UITableViewDataSource {
         UIScreen.main.bounds.height * 0.2
     }
 
-
 }
 
 //MARK: - UITableViewDelegate
 
 extension EpisodeView: UITableViewDelegate {
-
-
+    
 }
 
 //MARK: - UISearchBarDelegate

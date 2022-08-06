@@ -7,9 +7,9 @@
 
 import UIKit
 
-class MenuViewController: UIViewController {
+final class MenuViewController: UIViewController {
 
-    let menuView = MainView()
+    private let menuView = MainView()
 
     override func loadView() {
         self.view = self.menuView
@@ -17,19 +17,20 @@ class MenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        menuView.delegate = self
+        
+        self.menuView.delegate = self
     }
-
-
+    
 }
 
 //MARK: - TapButtonDelegate
 
 extension MenuViewController: TapButtonDelegate {
+    
     func seeCharacters() {
-           let chVC = CharacterViewController()
-           navigationController?.pushViewController(chVC, animated: true)
-       }
+        let chVC = CharacterViewController()
+        navigationController?.pushViewController(chVC, animated: true)
+    }
 
     func seeLocations() {
         let lVC = LocationViewController()

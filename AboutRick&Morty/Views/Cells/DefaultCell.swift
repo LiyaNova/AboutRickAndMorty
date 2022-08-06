@@ -7,14 +7,14 @@
 
 import UIKit
 
-class DefaultCell: UITableViewCell {
-
-
+final class DefaultCell: UITableViewCell {
 
     private lazy var nameLabel: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
         lbl.text = "Рик и Морти"
+        lbl.numberOfLines = 0
+        lbl.lineBreakMode = .byWordWrapping
         lbl.textAlignment = .left
         lbl.textColor = .white
         lbl.font = .boldSystemFont(ofSize: 25)
@@ -48,7 +48,8 @@ class DefaultCell: UITableViewCell {
 
     override init (style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = UIColor(named: "Color")
+        self.contentView.backgroundColor = UIColor(named: "Color")
+
         self.setupView()
     }
 
@@ -56,19 +57,28 @@ class DefaultCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func setLocationCell(model: Locations) {
+        self.nameLabel.text = model.name
+        self.descriptionLabel.text = "Тип: \(model.type) \nИзмерение: \(model.dimension)"
+    }
+
+    func setEpisodeCell(model: Episodes) {
+        self.nameLabel.text = model.name
+        self.descriptionLabel.text = "Дата выпуска: \(model.airDate) \nСезон/эпизод: \(model.episode)"
+    }
+
     private func setupView() {
-        contentView.addSubview(self.labelStackView)
+        self.contentView.addSubview(self.labelStackView)
 
         NSLayoutConstraint.activate([
-
-            self.labelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            self.labelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            self.labelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                                                           constant: -10),
-            self.labelStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-
+            self.labelStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.labelStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
+                                                                                          constant: 10),
+            self.labelStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
+                                                                                         constant: -10),
+            self.labelStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,
+                                                                                         constant: -10),
         ])
-
-
     }
+
 }

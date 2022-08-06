@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CharacterCell: UITableViewCell {
+final class CharacterCell: UITableViewCell {
 
     private lazy var nameImage: UIImageView = {
         let img = UIImageView()
@@ -70,32 +70,18 @@ class CharacterCell: UITableViewCell {
 
     override init (style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-          contentView.backgroundColor = UIColor(named: "Color")
-          self.setupView()
+        self.contentView.backgroundColor = UIColor(named: "Color")
+
+        self.setupView()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupView() {
-        contentView.addSubview(self.viewStackView)
-        
-        NSLayoutConstraint.activate([
-
-            self.viewStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            self.viewStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            self.viewStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            self.viewStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
-
-        ])
-
-        
-    }
-
     func setCell(model: Characters) {
-        nameLabel.text = model.name
-        descriptionLabel.text = "Пол: \(model.gender)  \nВид: \(model.species) \nЛокация: \(model.location.name) "
+        self.nameLabel.text = model.name
+        self.descriptionLabel.text = "Пол: \(model.gender)  \nВид: \(model.species) \nЛокация: \(model.location.name) "
         DispatchQueue.global().async {
             guard let imageUrl = URL(string: model.image) else { return }
             guard let imageData = try? Data(contentsOf: imageUrl) else { return }
@@ -103,7 +89,21 @@ class CharacterCell: UITableViewCell {
                 self.nameImage.image = UIImage(data: imageData)
             }
         }
-
     }
+
+    private func setupView() {
+        self.contentView.addSubview(self.viewStackView)
+        
+        NSLayoutConstraint.activate([
+            self.viewStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.viewStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
+                                                                                         constant: 10),
+            self.viewStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
+                                                                                         constant: -10),
+            self.viewStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,
+                                                                                         constant: -10)
+        ])
+    }
+
 }
 
