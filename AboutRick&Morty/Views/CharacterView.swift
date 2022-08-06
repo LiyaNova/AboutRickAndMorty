@@ -15,13 +15,15 @@ final class CharacterView: UIView {
         }
     }
 
+    private var filteredCharacters =  [Characters]()
+
     private lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
         sb.translatesAutoresizingMaskIntoConstraints = false
         sb.delegate = self
         sb.placeholder = " Искать..."
         sb.sizeToFit()
-        sb.barTintColor = UIColor(named: "Color")
+        sb.barTintColor = UIColor(named: "customColor")
         sb.tintColor = .white
         sb.searchTextField.backgroundColor = .white
         return sb
@@ -34,7 +36,7 @@ final class CharacterView: UIView {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CharacterCell.self, forCellReuseIdentifier: "CharacterCell")
-        tableView.backgroundColor = UIColor(named: "Color")
+        tableView.backgroundColor = UIColor(named: "customColor")
         tableView.separatorColor = .gray
         tableView.separatorInset = .zero
         tableView.keyboardDismissMode = .onDrag
@@ -45,7 +47,7 @@ final class CharacterView: UIView {
         self.characters = characters
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor(named: "Color")
+        self.backgroundColor = UIColor(named: "customColor")
         self.setView()
     }
 
@@ -77,13 +79,22 @@ final class CharacterView: UIView {
 extension CharacterView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        characters.count
+        if searchBar.isFirstResponder {
+            return filteredCharacters.count
+        } else {
+            return characters.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterCell", for: indexPath) as!                                                                                    CharacterCell
-        let character = characters[indexPath.row]
-        cell.setCell(model: character)
+        if searchBar.isFirstResponder {
+            let character = filteredCharacters[indexPath.row]
+            cell.setCell(model: character)
+        } else {
+            let character = characters[indexPath.row]
+            cell.setCell(model: character)
+        }
         return cell
     }
 
@@ -104,22 +115,19 @@ extension CharacterView: UITableViewDelegate {
 extension CharacterView: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-
-        //            if searchText.isEmpty {
-        //   filteredCitiesList = citiesList
+        if searchText.isEmpty {
+            filteredCharacters = characters
+            characterTableView.reloadData()
+        } else {
+            filteredCharacters = characters.filter({ (character) in
+                return character.name.lowercased().contains(searchText.lowercased())
+            })
+        }
         characterTableView.reloadData()
-        //            } else {
-        //
-        //                func filterTableView(text:String) {
-        //                    let search = text.lowercased()
-        //                    filteredCitiesList = citiesList.filter({ (mod) -> Bool in
-        //                        return mod.name!.lowercased().contains(search)
-        //                    })
-        //                    self.tableView.reloadData()
-        //                }
-        //
-        //                filterTableView(text: searchText)
-        //            }
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
     }
 
 }

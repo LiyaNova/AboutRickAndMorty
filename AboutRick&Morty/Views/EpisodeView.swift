@@ -15,13 +15,15 @@ final class EpisodeView: UIView {
         }
     }
 
+    private var filteredEpisodes =  [Episodes]()
+
     private lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
         sb.translatesAutoresizingMaskIntoConstraints = false
         sb.delegate = self
         sb.placeholder = " Искать..."
         sb.sizeToFit()
-        sb.barTintColor = UIColor(named: "Color")
+        sb.barTintColor = UIColor(named: "customColor")
         sb.tintColor = .white
         sb.searchTextField.backgroundColor = .white
         return sb
@@ -34,7 +36,7 @@ final class EpisodeView: UIView {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DefaultCell.self, forCellReuseIdentifier: "DefaultCell")
-        tableView.backgroundColor = UIColor(named: "Color")
+        tableView.backgroundColor = UIColor(named: "customColor")
         tableView.separatorColor = .gray
         tableView.separatorInset = .zero
         tableView.keyboardDismissMode = .onDrag
@@ -45,7 +47,7 @@ final class EpisodeView: UIView {
         self.episodes =  episodes
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor(named: "Color")
+        self.backgroundColor = UIColor(named: "customColor")
         self.setView()
     }
 
@@ -77,14 +79,23 @@ final class EpisodeView: UIView {
 extension EpisodeView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        episodes.count
+        if searchBar.isFirstResponder {
+            return filteredEpisodes.count
+        } else {
+            return episodes.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as!
-                                                                                        DefaultCell
-        let episode = episodes[indexPath.row]
-        cell.setEpisodeCell(model: episode)
+        DefaultCell
+        if searchBar.isFirstResponder {
+            let episode = filteredEpisodes[indexPath.row]
+            cell.setEpisodeCell(model: episode)
+        } else {
+            let episode = episodes[indexPath.row]
+            cell.setEpisodeCell(model: episode)
+        }
         return cell
     }
 
@@ -103,5 +114,21 @@ extension EpisodeView: UITableViewDelegate {
 //MARK: - UISearchBarDelegate
 
 extension EpisodeView: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredEpisodes = episodes
+            episodeTableView.reloadData()
+        } else {
+            filteredEpisodes = episodes.filter({ (character) in
+                return character.name.lowercased().contains(searchText.lowercased())
+            })
+        }
+        episodeTableView.reloadData()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
 
 }

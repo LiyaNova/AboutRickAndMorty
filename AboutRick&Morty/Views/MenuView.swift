@@ -92,7 +92,7 @@ final class MainView: UIView {
         lbl.text = "Персонажи"
         lbl.textAlignment = .left
         lbl.textColor = .white
-        lbl.backgroundColor = UIColor(named: "Color")
+        lbl.backgroundColor = UIColor(named: "customColor")
         lbl.layer.masksToBounds = true
         lbl.layer.cornerRadius = 8
         lbl.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner]
@@ -106,7 +106,7 @@ final class MainView: UIView {
         lbl.text = "Локации"
         lbl.textAlignment = .left
         lbl.textColor = .white
-        lbl.backgroundColor = UIColor(named: "Color")
+        lbl.backgroundColor = UIColor(named: "customColor")
         lbl.layer.masksToBounds = true
         lbl.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner]
         lbl.layer.cornerRadius = 8
@@ -120,7 +120,7 @@ final class MainView: UIView {
         lbl.text = "Эпизоды"
         lbl.textAlignment = .left
         lbl.textColor = .white
-        lbl.backgroundColor = UIColor(named: "Color")
+        lbl.backgroundColor = UIColor(named: "customColor")
         lbl.layer.masksToBounds = true
         lbl.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner]
         lbl.layer.cornerRadius = 8
@@ -131,7 +131,7 @@ final class MainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor(named: "Color")
+        self.backgroundColor = UIColor(named: "customColor")
         self.setViews()
     }
 

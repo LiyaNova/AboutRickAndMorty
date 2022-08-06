@@ -15,13 +15,15 @@ final class LocationView: UIView {
         }
     }
 
+    private var filteredLocations =  [Locations]()
+
     private lazy var searchBar: UISearchBar = {
         let sb = UISearchBar()
         sb.translatesAutoresizingMaskIntoConstraints = false
         sb.delegate = self
         sb.placeholder = " Искать..."
         sb.sizeToFit()
-        sb.barTintColor = UIColor(named: "Color")
+        sb.barTintColor = UIColor(named: "customColor")
         sb.tintColor = .white
         sb.searchTextField.backgroundColor = .white
         return sb
@@ -34,7 +36,7 @@ final class LocationView: UIView {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DefaultCell.self, forCellReuseIdentifier: "DefaultCell")
-        tableView.backgroundColor = UIColor(named: "Color")
+        tableView.backgroundColor = UIColor(named: "customColor")
         tableView.separatorColor = .gray
         tableView.separatorInset = .zero
         tableView.keyboardDismissMode = .onDrag
@@ -45,7 +47,7 @@ final class LocationView: UIView {
         self.locations = locations
         super.init(frame: frame)
 
-        self.backgroundColor = UIColor(named: "Color")
+        self.backgroundColor = UIColor(named: "customColor")
         self.setView()
     }
 
@@ -77,14 +79,23 @@ final class LocationView: UIView {
 extension LocationView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        locations.count
+        if searchBar.isFirstResponder {
+            return filteredLocations.count
+        } else {
+            return locations.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath) as!
-                                                                                        DefaultCell
-        let location = locations[indexPath.row]
-        cell.setLocationCell(model: location)
+        DefaultCell
+        if searchBar.isFirstResponder {
+            let location = filteredLocations[indexPath.row]
+            cell.setLocationCell(model: location)
+        } else {
+            let location = locations[indexPath.row]
+            cell.setLocationCell(model: location)
+        }
         return cell
     }
 
@@ -103,5 +114,21 @@ extension LocationView: UITableViewDelegate {
 //MARK: - UISearchBarDelegate
 
 extension LocationView: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            filteredLocations = locations
+            locationTableView.reloadData()
+        } else {
+            filteredLocations = locations.filter({ (character) in
+                return character.name.lowercased().contains(searchText.lowercased())
+            })
+        }
+        locationTableView.reloadData()
+    }
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
 
 }

@@ -70,7 +70,7 @@ final class CharacterCell: UITableViewCell {
 
     override init (style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.backgroundColor = UIColor(named: "Color")
+        self.contentView.backgroundColor = UIColor(named: "customColor")
 
         self.setupView()
     }
