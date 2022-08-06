@@ -20,6 +20,7 @@ class CharacterViewController: UIViewController {
         self.title = "Персонажи"
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [ NSAttributedString.Key.foregroundColor : UIColor.white ]
+
     }
 
 }

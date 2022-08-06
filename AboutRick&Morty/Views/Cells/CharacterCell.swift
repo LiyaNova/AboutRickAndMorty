@@ -9,11 +9,9 @@ import UIKit
 
 class CharacterCell: UITableViewCell {
 
-
     private lazy var nameImage: UIImageView = {
         let img = UIImageView()
         img.translatesAutoresizingMaskIntoConstraints = false
-        img.image = UIImage(named: "hero")
         img.clipsToBounds = true
         img.contentMode = .scaleAspectFill
         img.layer.cornerRadius = 10
@@ -25,7 +23,8 @@ class CharacterCell: UITableViewCell {
     private lazy var nameLabel: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.text = "Рик и Морти"
+        lbl.numberOfLines = 0
+        lbl.lineBreakMode = .byWordWrapping
         lbl.textAlignment = .left
         lbl.textColor = .white
         lbl.font = .boldSystemFont(ofSize: 25)
@@ -35,7 +34,6 @@ class CharacterCell: UITableViewCell {
     private lazy var descriptionLabel: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
-        lbl.text = "Дедушка и внук \nЛюди \nЖивут на Земле"
         lbl.numberOfLines = 0
         lbl.lineBreakMode = .byWordWrapping
         lbl.textAlignment = .left
@@ -94,4 +92,18 @@ class CharacterCell: UITableViewCell {
 
         
     }
+
+    func setCell(model: Characters) {
+        nameLabel.text = model.name
+        descriptionLabel.text = "Пол: \(model.gender)  \nВид: \(model.species) \nЛокация: \(model.location.name) "
+        DispatchQueue.global().async {
+            guard let imageUrl = URL(string: model.image) else { return }
+            guard let imageData = try? Data(contentsOf: imageUrl) else { return }
+            DispatchQueue.main.async {
+                self.nameImage.image = UIImage(data: imageData)
+            }
+        }
+
+    }
 }
+

@@ -22,7 +22,7 @@ final class EpisodeView: UIView {
 
     }()
 
-  private lazy var characterTableView: UITableView = {
+    private lazy var characterTableView: UITableView = {
         let tableView = UITableView(frame: self.bounds, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
@@ -30,6 +30,8 @@ final class EpisodeView: UIView {
         tableView.register(DefaultCell.self, forCellReuseIdentifier: "DefaultCell")
         tableView.backgroundColor = UIColor(named: "Color")
         tableView.separatorColor = .gray
+        tableView.separatorInset = .zero
+        tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
 
