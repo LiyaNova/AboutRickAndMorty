@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class CharacterCell: UITableViewCell {
 
@@ -82,13 +83,8 @@ final class CharacterCell: UITableViewCell {
     func setCell(model: Characters) {
         self.nameLabel.text = model.name
         self.descriptionLabel.text = "Пол: \(model.gender)  \nВид: \(model.species) \nЛокация: \(model.location.name) "
-        DispatchQueue.global().async {
-            guard let imageUrl = URL(string: model.image) else { return }
-            guard let imageData = try? Data(contentsOf: imageUrl) else { return }
-            DispatchQueue.main.async {
-                self.nameImage.image = UIImage(data: imageData)
-            }
-        }
+        let imageUrl = URL(string: model.image)
+        self.nameImage.kf.setImage(with: imageUrl)
     }
 
     private func setupView() {
