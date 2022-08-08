@@ -13,6 +13,7 @@
 - Предусмотрено кэширование загруженных с API фото
 - Для передачи данных между объектами использованы delegate и clousers
 - Подключен контекстный поиск с помощью searchBar
+- Локализация на русском языке
 
 ---
 ### Test task
@@ -30,6 +31,7 @@
 - Caching of photos loaded from the API 
 - Delegate and clousers to transfer data between objects
 - Connected context search with searchBar
+- Localization - ru
 ---
 <img align="center" width="300" height="650" src=img/1.png> <img align="center" width="300" height="650" src=img/2.png>
 <img align="center" width="300" height="650" src=img/3.png> <img align="center" width="300" height="650" src=img/4.png>
