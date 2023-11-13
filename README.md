@@ -2,7 +2,7 @@
 ### Тестовое задание
 
 **Задача**: на базе существующего API “The Rick and Morty” необходимо разработать iOS-приложение.
-**Используемые технологии**: Swift, верстка UI-кодом, UIKit, MVC, Delegate/Closures, Alamofire, Kingfisher.  
+**Стэк**: Swift, верстка UI-кодом, UIKit, MVC, Delegate/Closures, Alamofire, Kingfisher.  
 
 **Результ**:
 - Проект создан с применением архитектурного паттерна MVC 
@@ -20,7 +20,7 @@
 
 **Task**: create an app based on “The Rick and Morty” API
 
-**Technologies**: Swift, UI code, UIKit, MVC, Delegate/Closures, Alamofire, Kingfisher.
+**Stack**: Swift, UI code, UIKit, MVC, Delegate/Closures, Alamofire, Kingfisher.
 
 **Result**:
 - Created according to the MVC architectural pattern
