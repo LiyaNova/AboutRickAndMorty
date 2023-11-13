@@ -1,7 +1,7 @@
 # AboutRickAndMorty
 ### Тестовое задание
 
-**Задача**: на базе существующего API “The Rick and Morty” необходимо разработать iOS-приложение.
+**Задача**: на базе существующего API “The Rick and Morty” необходимо разработать iOS-приложение.  
 **Стэк**: Swift, верстка UI-кодом, UIKit, MVC, Delegate/Closures, Alamofire, Kingfisher.  
 
 **Результ**:
@@ -19,7 +19,6 @@
 ### Test task
 
 **Task**: create an app based on “The Rick and Morty” API
-
 **Stack**: Swift, UI code, UIKit, MVC, Delegate/Closures, Alamofire, Kingfisher.
 
 **Result**:
